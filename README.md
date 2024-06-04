@@ -1,15 +1,18 @@
-# Welcome to the LaunchDarkly 2023-2024 Core Booth Demo
+# LaunchDarkly Galaxy Marketplace Example Application
+Gain hands-on experience with LaunchDarkly's experimentation features and an understanding of feature flags using this demo application. 
 
-This demo focuses on covering the 4 core use cases across... 
+[Website](https://launchdarkly.com/) • [Docs](https://docs.launchdarkly.com) • [Twitter](https://twitter.com/launchdarkly) • [Join Community Discord](https://discord.gg/launchdarklycommunity)
 
-- De-Risking Releases
-- Targeted Experiences
-- Product Experimentation
-- Mobile Release Optimization
+## Launching the Galaxy Marketplace Application
 
-
-Throughout this demo, you'll explore `Toggle Bank`, `Launch Airways`, and `Galaxy Marketplace`. 
+### App Requirements
+- LaunchDarkly Application, [sign up for a free trial](https://app.launchdarkly.com/signup)
 
 
-## Setup Info
-Please follow instructions provided in this [confluence document](https://launchdarkly.atlassian.net/wiki/spaces/REV/pages/2773942302/Demo+Instances+2024+-+Technical):
+
+## About LaunchDarkly
+LaunchDarkly unites feature flags, context-aware targeting, and experimentation in one powerful software delivery platform. 
+
+
+
+
