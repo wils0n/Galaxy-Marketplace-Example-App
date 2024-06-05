@@ -67,12 +67,12 @@ export function StoreCart({ cart, setCart }: { cart: any; setCart: any }) {
     router.push("/marketplace");
   };
   
-  {/* the checkOutTracking function below makes sure that the LDClient is not only active, but then calls teh track method on that.  Then the track sends an "customer-checkout event" to LaunchDarkly.  The second parameter is the context of the event.  The third parameter is the value of the event.  In this case, the value is 1.  This is the only parameter that is required.  The fourth parameter is the metric value.  This is optional.  */}
+    // the checkOutTracking function below makes sure that the LDClient is not only active, but then calls the track method on that.  Then the track sends an "customer-checkout event" to LaunchDarkly.  The second parameter is the context of the event.  The third parameter is the value of the event.  In this case, the value is 1.  This is the only parameter that is required.  The fourth parameter is the metric value.  This is optional.
 
-  const checkOutTracking = () => {
-    LDClient?.track("customer-checkout", LDClient.getContext(), 1);
-    LDClient?.track("in-cart-total-price", LDClient.getContext(), totalCost);
-  };
+    const checkOutTracking = () => {
+      LDClient?.track("customer-checkout", LDClient.getContext(), 1);
+      LDClient?.track("in-cart-total-price", LDClient.getContext(), totalCost);
+    };    
 
   return (
     <Sheet>
@@ -142,23 +142,25 @@ export function StoreCart({ cart, setCart }: { cart: any; setCart: any }) {
             </SheetTrigger>
               
           { /* this code below is the code for the suggested items component.  If the feature flag is turned on, then it will show the suggested items.  If the feature flag is turned off, then it will show a button that will take the user back to the marketplace. */ }
+          
+          {cartSuggestedItems ? (
+          
+          <SuggestedItems
+              cart={cart}
+              setCart={setCart}
+            />
+          ) : (
+            <SheetTrigger onClick={continueShopping} asChild>
+              <div className="text-center mt-4">
+                <Button
+                  className="text-md  bg-gradient-experimentation hover:brightness-[120%] text-transparent bg-clip-text rounded-none"
+                >
+                  Continue Shopping →
+                </Button>
+              </div>
+            </SheetTrigger>
+          )}
 
-            {{cartSuggestedItems ? (}
-              <SuggestedItems
-                cart={cart}
-                setCart={setCart}
-              />
-            ) : (
-              <SheetTrigger onClick={continueShopping} asChild>
-                <div className="text-center mt-4">
-                  <Button
-                    className="text-md  bg-gradient-experimentation hover:brightness-[120%] text-transparent bg-clip-text rounded-none"
-                  >
-                    Continue Shopping →
-                  </Button>
-                </div>
-              </SheetTrigger>
-            )}
           </div>
         </SheetFooter>
 
