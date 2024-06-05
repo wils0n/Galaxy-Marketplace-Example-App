@@ -32,8 +32,12 @@ interface InventoryItem {
 // @ts-nocheck
 export function StoreCart({ cart, setCart }: { cart: any; setCart: any }) {
   const router = useRouter();
+// Telling our code to use the LDClient.
   const LDClient = useLDClient();
+  
+// LaunchDarkly Feature Flag turning on and off the suggested item component on the Store Cart page.
 
+  const { cartSuggestedItems } = useFlags();
 
   const totalCost = (cart || []).reduce(
     (total: number, item: InventoryItem) => total + Number(item.cost),
@@ -62,6 +66,8 @@ export function StoreCart({ cart, setCart }: { cart: any; setCart: any }) {
     
     router.push("/marketplace");
   };
+  
+  {/* the checkOutTracking function below makes sure that the LDClient is not only active, but then calls teh track method on that.  Then the track sends an "customer-checkout event" to LaunchDarkly.  The second parameter is the context of the event.  The third parameter is the value of the event.  In this case, the value is 1.  This is the only parameter that is required.  The fourth parameter is the metric value.  This is optional.  */}
 
   const checkOutTracking = () => {
     LDClient?.track("customer-checkout", LDClient.getContext(), 1);
@@ -89,7 +95,9 @@ export function StoreCart({ cart, setCart }: { cart: any; setCart: any }) {
 
         </SheetHeader>
         <Table className="font-sohnelight">
+
           {/* <TableCaption>Your Items</TableCaption> */}
+
           <TableHeader>
             <TableRow>
               <TableHead />
@@ -127,13 +135,15 @@ export function StoreCart({ cart, setCart }: { cart: any; setCart: any }) {
             <SheetTrigger onClick={checkOut} asChild>
               <Button
                 onClick={checkOutTracking}
-                className="w-full bg-gradient-experimentation hover:brightness-[120%] rounded-none"
-              >
+                className="w-full bg-gradient-experimentation hover:brightness-[120%] rounded-none" 
+                >
                 Checkout
               </Button>
-
             </SheetTrigger>
-            {false ? (
+              
+          { /* this code below is the code for the suggested items component.  If the feature flag is turned on, then it will show the suggested items.  If the feature flag is turned off, then it will show a button that will take the user back to the marketplace. */ }
+
+            {{cartSuggestedItems ? (}
               <SuggestedItems
                 cart={cart}
                 setCart={setCart}

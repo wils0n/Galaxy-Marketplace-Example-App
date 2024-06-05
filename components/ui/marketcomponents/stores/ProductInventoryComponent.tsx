@@ -50,11 +50,14 @@ const ProductInventoryComponent = ({
   inventory: any;
   mainImg: any;
 }) => {
+
+// Call the LDClient
   const LDClient = useLDClient();
+
   const { toast } = useToast();
+  
+// Using useFlags to call it to LaunchDarkly.
   const { storeAttentionCallout, storeHeaders } = useFlags();
-
-
 
   async function storeOpened() {
     LDClient?.track("store-accessed", LDClient.getContext(), 1);
@@ -62,6 +65,9 @@ const ProductInventoryComponent = ({
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
+
+    {/*Identifying and calling the store headers as an `onClick` event.*/}
+
       <SheetTrigger
         asChild
         onClick={() => {
@@ -82,7 +88,9 @@ const ProductInventoryComponent = ({
               className="flex justify-center absolute top-[10px] right-[20px] z-10 bg-[#EBFF38] px-4 pt-2 pb-[2rem] h-auto marketplace-item-banner-cutout"
             >
               <p className="flex font-sohne uppercase text-xs text-black text-center flex-col justify-around mb-1.5 w-full">
-                {/* replace the below line with storeAttentionCallout code here */}
+                
+                {/* storeAttention Callout code which calls the feature flag below */}
+
                 {storeAttentionCallout?.split("").map((char, index) =>
                   char === " " ? <span key={index}>&nbsp;</span> : <span key={index}>{char}</span>
                 )}
