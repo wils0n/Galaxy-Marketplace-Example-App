@@ -6,8 +6,12 @@ Gain hands-on experience with LaunchDarkly's experimentation features and an und
 ## Launching the Galaxy Marketplace Application
 
 ### App Requirements
-- LaunchDarkly Application, [sign up for a free trial](https://app.launchdarkly.com/signup)
+- LaunchDarkly Application, [sign up for our free developer plan](https://app.launchdarkly.com/pricing)
 
+## Related Tutorials and Resources
+- [Docs: Experimentation](https://docs.launchdarkly.com/home/experimentation/?q=experimen)
+- [Blog: A guide to experimentation](https://launchdarkly.com/blog/a-guide-to-experimentation-in-launchdarkly/)
+— [Blog: How to run a funnel experiment](https://launchdarkly.com/blog/getting-started-with-funnel-experiments/)
 
 
 ## About LaunchDarkly
