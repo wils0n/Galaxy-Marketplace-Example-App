@@ -1,9 +1,8 @@
 import "@/styles/globals.css";
-import { isAndroid, isIOS, isBrowser, isMobile, isMacOs, isWindows } from 'react-device-detect';
 import type { AppProps } from "next/app";
+import { useEffect } from "react";
+import { LDProvider, useLDClient } from "launchdarkly-react-client-sdk";
 import NoSSRWrapper from "@/components/no-ssr";
-import { asyncWithLDProvider } from "launchdarkly-react-client-sdk";
-import { v4 as uuidv4 } from "uuid";
 import { TripsProvider } from "@/utils/contexts/TripContext";
 import { LoginProvider } from "@/utils/contexts/login";
 import KeyboardNavigation from "@/components/KeyboardNavigation";
@@ -11,77 +10,46 @@ import Head from "next/head";
 import { PersonaProvider } from "@/components/personacontext";
 import { QuickCommandDialog } from "@/components/quickcommand";
 
+const context = {
+  kind: "user",
+  key: "user-key-123abcde",
+  email: "biz@face.dev",
+};
 
-let c;
+function AppWrapper({ Component, pageProps }: AppProps) {
+  const ldClient = useLDClient();
 
-if (typeof window !== "undefined") {
-  //const uniqueKey = uuidv4().slice(0, 4);
+  useEffect(() => {
+    ldClient?.track(process.env.NEXT_PUBLIC_LD_EVENT_KEY || "");
+  }, [ldClient]);
 
-  const operatingSystem = isAndroid ? 'Android' : isIOS ? 'iOS' : isWindows ? 'Windows' : isMacOs ? 'macOS' : '';
-  const device = isMobile ? 'Mobile' : isBrowser ? 'Desktop' : '';
-
-  const LDProvider = await asyncWithLDProvider({
-    clientSideID: process.env.NEXT_PUBLIC_LD_CLIENT_KEY || "",
-    reactOptions: {
-      useCamelCaseFlagKeys: false,
-    },
-    context: {
-      kind: "multi",
-      user: {
-        key: "user@launchmail.io",
-        name: "user",
-        anonymous: true,
-        email: "user@launchmail.io",
-        appName: "LD Demo",
-      },
-      device: {
-        key: device,
-        name: device,
-        operating_system: operatingSystem,
-        platform: device,
-      },
-      location: {
-        key: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        name: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        country: "US",
-      },
-      experience: {
-        key: "a380",
-        name: "a380",
-        airplane: "a380",
-      },
-    },
-  });
-
-  c = ({ Component, pageProps }: AppProps) => {
-    return (
-      <NoSSRWrapper>
-        <LDProvider>
-          <PersonaProvider>
-            
-              <LoginProvider>
-              <QuickCommandDialog>
-                <TripsProvider>
-                  <KeyboardNavigation />
-                  <Head>
-                    <meta
-                      name="viewport"
-                      content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0"
-                    />
-                    <link rel="apple-touch-icon" href="/apple-icon.png" />
-                  </Head>
-                  <Component {...pageProps} />
-                </TripsProvider>
-                </QuickCommandDialog>
-              </LoginProvider>
-          </PersonaProvider>
-        </LDProvider>
-      </NoSSRWrapper>
-    );
-  };
-} else {
-  c = () => null;
+  return (
+    <NoSSRWrapper>
+      <PersonaProvider>
+        <LoginProvider>
+          <QuickCommandDialog>
+            <TripsProvider>
+              <KeyboardNavigation />
+              <Head>
+                <meta
+                  name="viewport"
+                  content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0"
+                />
+                <link rel="apple-touch-icon" href="/apple-icon.png" />
+              </Head>
+              <Component {...pageProps} />
+            </TripsProvider>
+          </QuickCommandDialog>
+        </LoginProvider>
+      </PersonaProvider>
+    </NoSSRWrapper>
+  );
 }
 
-export default c;
+export default function MyApp(props: AppProps) {
+  return (
+    <LDProvider clientSideID={process.env.NEXT_PUBLIC_LD_CLIENT_KEY || ""} context={context}>
+      <AppWrapper {...props} />
+    </LDProvider>
+  );
+}
