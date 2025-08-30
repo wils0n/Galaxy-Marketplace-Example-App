@@ -28,7 +28,7 @@ export default function Marketplace() {
 {/* Step 1 code block */}
 
   const LDClient = useLDClient();
-  const { storeAttentionCallout} = useFlags();
+  const { storeAttentionCallout, featNewMenu} = useFlags();
 
   {/* Step 1 code block */}
 
@@ -310,28 +310,32 @@ export default function Marketplace() {
                       placeholder="Browse a Galaxy of Storefronts"
                     />
                   </div>
-                  <div className="mt-4 sm:mt-6 gap-x-2 gap-y-4 sm:gap-y-0 grid grid-cols-3 sm:flex sm:grid-cols-0  ">
-                    <Badge className="text-lg border-2 bg-transparent border-gray-500 text-ldlightgray">
-                      Accessories
-                    </Badge>
-                    <Badge className="text-lg border-2 bg-transparent border-gray-500 text-ldlightgray">
-                      Gifts for devs
-                    </Badge>
-                    <Badge className="text-lg border-2 bg-transparent border-gray-500 text-ldlightgray">
-                      Popular shops
-                    </Badge>
-                    <Badge className="text-lg border-2 bg-transparent border-gray-500 text-ldlightgray">
-                      Best sellers
-                    </Badge>
-                    <Badge className="text-lg border-2 bg-transparent border-gray-500 text-ldlightgray">
-                      Newest
-                    </Badge>
-                    <Badge className="text-lg border-2 bg-transparent border-gray-500 text-ldlightgray">
-                      Top deals
-                    </Badge>
-                  </div>
+                  
+                  {featNewMenu && (
+                    <div className="mt-4 sm:mt-6 gap-x-2 gap-y-4 sm:gap-y-0 grid grid-cols-3 sm:flex sm:grid-cols-0  ">
+                      <Badge className="text-lg border-2 bg-transparent border-gray-500 text-ldlightgray">
+                        Accessories
+                      </Badge>
+                      <Badge className="text-lg border-2 bg-transparent border-gray-500 text-ldlightgray">
+                        Gifts for devs
+                      </Badge>
+                      <Badge className="text-lg border-2 bg-transparent border-gray-500 text-ldlightgray">
+                        Popular shops
+                      </Badge>
+                      <Badge className="text-lg border-2 bg-transparent border-gray-500 text-ldlightgray">
+                        Best sellers
+                      </Badge>
+                      <Badge className="text-lg border-2 bg-transparent border-gray-500 text-ldlightgray">
+                        Newest
+                      </Badge>
+                      <Badge className="text-lg border-2 bg-transparent border-gray-500 text-ldlightgray">
+                        Top deals
+                      </Badge>
+                    </div>
+                  )}
                 </div>
               </header>
+     
 
               <div className="mx-8 sm:mx-12 xl:mx-auto pt-14 ">
                 <div className="space-y-16">
